@@ -1,9 +1,12 @@
 package com.api.crud.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
-@Table(name = "CLIENTE")
+@Table(name = "cliente")
 public class ClienteModel {
 
     @Id
@@ -73,9 +76,4 @@ public class ClienteModel {
         this.CLI_ESTADO = CLI_ESTADO;
     }
 
-    @Override
-    public String toString() {
-        return "ClienteModel [CLI_ID=" + CLI_ID + ", CLI_NOMBRE=" + CLI_NOMBRE + ", CLI_APELLIDO=" + CLI_APELLIDO
-                + ", CLI_PAIS=" + CLI_PAIS + ", CLI_EMAIL=" + CLI_EMAIL + ", CLI_ESTADO=" + CLI_ESTADO + "]";
-    }
 }
