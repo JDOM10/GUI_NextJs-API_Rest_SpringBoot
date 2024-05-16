@@ -28,7 +28,7 @@ export const ClientesClient: React.FC<ClientesClientProps> = ({
           Añadir</Button>
       </div>
       <Separator />
-      <Button onClick={() => router.push('../configuracion')}>
+      <Button onClick={() => router.push('/')}>
           <ArrowBigLeft className="mr-2 h-6 w-6"/>
           Regresar
       </Button>

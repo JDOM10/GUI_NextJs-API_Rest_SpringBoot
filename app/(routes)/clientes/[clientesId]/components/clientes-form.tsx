@@ -1,6 +1,6 @@
 import * as z from "zod";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -40,13 +40,13 @@ const formSchema = z.object({
 type ClientesFormValues = z.infer<typeof formSchema>;
 
 interface ClientesFormProps {
-  initialData: any | null;
 }
 
-export const ClientesForm: React.FC<ClientesFormProps> = ({ initialData }) => {
+export const ClientesForm: React.FC<ClientesFormProps> = ({ }) => {
   const params = useParams();
   const router = useRouter();
 
+  const [initialData, setInitialData] = useState(false);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -57,7 +57,7 @@ export const ClientesForm: React.FC<ClientesFormProps> = ({ initialData }) => {
 
   const form = useForm<ClientesFormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData || {
+    defaultValues: initialData ? undefined : {
       cli_ID: "",
       cli_NOMBRE: "",
       cli_APELLIDO: "",
@@ -67,13 +67,30 @@ export const ClientesForm: React.FC<ClientesFormProps> = ({ initialData }) => {
     },
   });
 
+  useEffect(() => {
+    const fetchClienteData = async (clienteId: string) => {
+      try {
+        const clienteData = await axios.get(`http://localhost:4000/cliente/${clienteId}`);
+        form.reset(clienteData.data); // Restablecer el formulario con los datos del cliente obtenidos
+      } catch (error) {
+        console.error("Error fetching cliente data:", error);
+      }
+    };
+
+    if (typeof params.clientesId === 'string' && params.clientesId !== '0') {
+      // Si no hay datos iniciales pero hay un ID de cliente en los parámetros de la URL, lo usamos para buscar los datos del cliente
+      fetchClienteData(params.clientesId);
+      setInitialData(true);
+    }
+  }, [params.clientesId, form]);
+
+
   const onSubmit = async (data: ClientesFormValues) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.patch(`http://localhost:4000/cliente/${params.ClientesId}`, data);
+        await axios.put(`http://localhost:4000/cliente/${params.clientesId}`, data);
       } else {
-        console.log(data);
         await axios.post(`http://localhost:4000/cliente`, data);
       }
       router.refresh();
@@ -91,9 +108,9 @@ export const ClientesForm: React.FC<ClientesFormProps> = ({ initialData }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/clientes/${params.ClientesId}`);
+      await axios.delete(`http://localhost:4000/cliente/${params.clientesId}`);
       router.refresh();
-      router.push(`/../configuracion/clientes`);
+      router.push(`/clientes`);
       router.refresh();
       toast.success("Cliente borrado");
     } catch (error: any) {
@@ -225,7 +242,7 @@ export const ClientesForm: React.FC<ClientesFormProps> = ({ initialData }) => {
           <Button disabled={loading} className="ml-auto" type="submit">
             {action}
           </Button>
-          <Button className="ml-5" onClick={() => router.push("../clientes")} type="reset">
+          <Button className="ml-5" onClick={() => router.push("/clientes")} type="reset">
             Cancelar
           </Button>
         </form>
