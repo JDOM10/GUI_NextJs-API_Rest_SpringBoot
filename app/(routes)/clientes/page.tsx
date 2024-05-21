@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ClientesClient } from "./components/client"; // Importa el componente ClientesClient
-import { ClientesColumn } from "./components/columns"; // Importa la interfaz ClientesColumn
+import { ClientesClient } from "../clientes/components/client"; // Importa el componente ClientesClient
+import { ClientesColumn } from "../clientes/components/columns"; // Importa la interfaz ClientesColumn
 import axios from "axios";
 
 const ClientePage = () => {

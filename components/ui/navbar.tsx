@@ -52,7 +52,7 @@ const Navbar = () => {
           </li>
           <li>
             <Button
-              onClick={() => router.push("/plan")}
+              onClick={() => router.push("/planes")}
               className="text-lg bg-gray-800 font-bold text-white hover:bg-gray-300"
             >
               Plan
@@ -68,7 +68,7 @@ const Navbar = () => {
           </li>
           <li id="sususu">
             <Button
-              onClick={() => router.push("/suscribete-ahora")}
+              onClick={() => router.push("/suscribete")}
               className="text-lg bg-gray-800 font-bold text-white hover:bg-gray-300"
             >
               SUSCRÍBETE AHORA
