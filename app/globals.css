@@ -74,3 +74,13 @@
       @apply bg-background text-foreground;
     }
   }
+
+  .image-container {
+    width: 340px; /* Ancho deseado */
+    height: 200px; /* Alto deseado */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  

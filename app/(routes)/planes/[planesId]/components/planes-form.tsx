@@ -32,6 +32,7 @@ const formSchema = z.object({
   tipoplanNombre: z.string().min(1, { message: "Debe ingresar al menos 1 caracter." }),
   tipoplanDuracion: z.string().min(1, { message: "Debe ingresar al menos 1 caracter." }),
   tipoplanPrecio: z.optional(z.coerce.number().min(0, { message: "Debe ingresar un valor válido."})),
+  tipoplanImagen: z.optional(z.string()),
   tipoplanEstado: z.boolean(),
 });
 
@@ -59,6 +60,7 @@ export const PlanesForm: React.FC<PlanesFormProps> = ({ }) => {
       tipoplanDuracion: "",
       tipoplanNombre: "",
       tipoplanPrecio: 0,
+      tipoplanImagen: "",
       tipoplanEstado: true,
     },
   });
@@ -175,6 +177,19 @@ export const PlanesForm: React.FC<PlanesFormProps> = ({ }) => {
                 <FormLabel>Precio*</FormLabel>
                 <FormControl>
                   <Input type="number" disabled={loading} placeholder="Precio" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="tipoplanImagen"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>URL Imagen</FormLabel>
+                <FormControl>
+                  <Input disabled={loading} placeholder="Imagen" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
