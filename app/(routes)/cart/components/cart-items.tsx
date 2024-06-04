@@ -16,7 +16,7 @@ export const CartItems: React.FC<CartItemProps> = ({ data }) => {
   const cart = useCart()
 
   const onRemove = () => {
-    cart.removeItem(data.tipoplanId)
+    cart.removeItem(data.TIPOPLAN_ID)
   }
 
   return (
@@ -25,7 +25,7 @@ export const CartItems: React.FC<CartItemProps> = ({ data }) => {
         {/* <Image
           fill
           src={data.tipoplanImagen}
-          alt={data.tipoplanNombre}
+          alt={data.TIPOPLAN_NOMBRE}
           className="object-cover object-center"
         /> */}
       </div>
@@ -37,10 +37,10 @@ export const CartItems: React.FC<CartItemProps> = ({ data }) => {
 
         <div className="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
           <div className="flex justify-between">
-            <p className="text-lg font-semibold text-black">{data.tipoplanNombre}</p>
+            <p className="text-lg font-semibold text-black">{data.TIPOPLAN_NOMBRE}</p>
           </div>
 
-          <Currency value={data.tipoplanPrecio} />
+          <Currency value={data.TIPOPLAN_PRECIO} />
         </div>
       </div>
     </li>

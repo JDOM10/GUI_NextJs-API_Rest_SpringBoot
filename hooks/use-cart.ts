@@ -17,7 +17,7 @@ export const useCart = create(
       items: [],
       addItem: (data: Product) => {
         const currentItems = get().items
-        const existingItem = currentItems.find((item) => item.tipoplanId === data.tipoplanId)
+        const existingItem = currentItems.find((item) => item.TIPOPLAN_ID === data.TIPOPLAN_ID)
 
         if (existingItem) {
           return toast('El Plan ya esta en el carrito.')
@@ -27,7 +27,7 @@ export const useCart = create(
         toast.success('Plan añadido al carrito.')
       },
       removeItem: (id: number) => {
-        set({ items: [...get().items.filter((item) => item.tipoplanId !== id)] })
+        set({ items: [...get().items.filter((item) => item.TIPOPLAN_ID !== id)] })
         toast.success('Plan removido del carrito.')
       },
       removeAll: () => set({ items: [] }),

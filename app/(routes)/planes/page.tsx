@@ -11,7 +11,7 @@ const PlanPage = () => {
   useEffect(() => {
     const obtenerPlanes = async () => {
       try {
-        const planesData = await axios.get('http://localhost:4000/plan');// Obtiene los planes de la API
+        const planesData = await axios.get('https://localhost:5016/api/TipoPlan/Listar');// Obtiene los planes de la API
         setPlanes(planesData.data); // Actualiza el estado con los planes obtenidos
       } catch (error) {
         console.error("Error al obtener planes:", error);

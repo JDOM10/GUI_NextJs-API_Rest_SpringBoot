@@ -2,51 +2,51 @@ import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 
 export type SuscripcionesColumn = {
-    susId: number;
-    cliente: string;
-    tipoplan: string;
-    susStartDate: string;
-    susEndDate: string;
-    susRenovacionAuto: boolean;
-    susEstado: boolean;
+    SUS_ID: number;
+    CLI_ID: string;
+    TIPOPLAN_ID: string;
+    SUS_STARTDATE: string;
+    SUS_ENDDATE: string;
+    SUS_RENOVACIONAUTO: boolean;
+    SUS_ESTADO: boolean;
 }
 
 export const columns: ColumnDef<SuscripcionesColumn>[] = [
     {
-        accessorKey: "susId",
+        accessorKey: "SUS_ID",
         header: "ID",
     },
     {
-        accessorKey: "cliente",
+        accessorKey: "CLI_ID",
         header: "Cliente",
     },
     {
-        accessorKey: "tipoplan",
+        accessorKey: "TIPOPLAN_ID",
         header: "Plan",
     },
     {
-        accessorKey: "susStartDate",
+        accessorKey: "SUS_STARTDATE",
         header: "Fecha Inicio",
     },
     {
-        accessorKey: "susEndDate",
+        accessorKey: "SUS_ENDDATE",
         header: "Fecha Fin",
     },
     {
-        accessorKey: "susRenovacionAuto",
+        accessorKey: "SUS_RENOVACIONAUTO",
         header: "Renovación Automática",
         cell: ({ row }) => (
-            <span className={row.original.susRenovacionAuto ? 'text-green-500' : 'text-red-500'}>
-                {row.original.susRenovacionAuto ? 'Si' : 'No'}
+            <span className={row.original.SUS_RENOVACIONAUTO ? 'text-green-500' : 'text-red-500'}>
+                {row.original.SUS_RENOVACIONAUTO ? 'Si' : 'No'}
             </span>
         ),
     },
     {
-        accessorKey: "susEstado",
+        accessorKey: "SUS_ESTADO",
         header: "Estado",
         cell: ({ row }) => (
-            <span className={row.original.susEstado ? 'text-green-500' : 'text-red-500'}>
-                {row.original.susEstado ? 'Activo' : 'Inactivo'}
+            <span className={row.original.SUS_ESTADO ? 'text-green-500' : 'text-red-500'}>
+                {row.original.SUS_ESTADO ? 'Activo' : 'Inactivo'}
             </span>
         ),
     },

@@ -32,7 +32,7 @@ export const ClientesClient: React.FC<ClientesClientProps> = ({
           <ArrowBigLeft className="mr-2 h-6 w-6"/>
           Regresar
       </Button>
-      <DataTable searchKeys={["cli_ID"]} columns={columns} data={data} />
+      <DataTable searchKeys={["CLI_ID"]} columns={columns} data={data} />
     </>
   );
 };

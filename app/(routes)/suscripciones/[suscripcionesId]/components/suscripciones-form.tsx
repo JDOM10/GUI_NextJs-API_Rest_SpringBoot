@@ -29,22 +29,23 @@ import {
 } from "@/components/ui/select";
 
 const formSchema = z.object({
-  cliente: z.string().min(1, { message: "Selecciona una cédula." }),
-  tipoplan: z.string().min(1, { message: "Selecciona una cédula." }),
-  susStartDate: z.string().optional(),
-  susEndDate: z.string().optional(),
-  susRenovacionAuto: z.boolean(),
-  susEstado: z.boolean(),
+  CLI_ID: z.string().min(1, { message: "Selecciona una cédula." }),
+  SUS_ID: z.optional(z.coerce.number()),
+  TIPOPLAN_ID: z.string().min(1, { message: "Selecciona una cédula." }),
+  SUS_STARTDATE: z.string().optional(),
+  SUS_ENDDATE: z.string().optional(),
+  SUS_RENOVACIONAUTO: z.boolean(),
+  SUS_ESTADO: z.boolean(),
 });
 
 type Cliente = {
-  cli_ID: string;
-  cli_NOMBRE: string;
+  CLI_ID: string;
+  CLI_NOMBRE: string;
 };
 
 type Plan = {
-  tipoplanId: number;
-  tipoplanNombre: string;
+  TIPOPLAN_ID: number;
+  TIPOPLAN_NOMBRE: string;
 };
 
 type SuscripcionesFormValues = z.infer<typeof formSchema>;
@@ -76,25 +77,26 @@ export const SuscripcionesForm: React.FC<SuscripcionesFormProps> = ({}) => {
     defaultValues: initialData
       ? undefined
       : {
-          cliente: "",
-          tipoplan: "0",
-          susStartDate: "",
-          susEndDate: "",
-          susEstado: true,
-          susRenovacionAuto: true,
+          CLI_ID: "",
+          SUS_ID: 0,
+          TIPOPLAN_ID: "0",
+          SUS_STARTDATE: "",
+          SUS_ENDDATE: "",
+          SUS_ESTADO: true,
+          SUS_RENOVACIONAUTO: true,
         },
   });
 
   useEffect(() => {
     const fetchClientes = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/cliente");
+        const response = await axios.get("https://localhost:5016/api/Cliente/Listar");
         const clientesData = response.data; // Use the 'data' property instead of 'json' method
 
         setClientes(
           clientesData.map((cliente: any) => ({
-            cli_ID: cliente.cli_ID,
-            cli_NOMBRE: cliente.cli_NOMBRE,
+            CLI_ID: cliente.CLI_ID,
+            CLI_NOMBRE: cliente.CLI_NOMBRE,
           }))
         );
       } catch (error) {
@@ -108,12 +110,12 @@ export const SuscripcionesForm: React.FC<SuscripcionesFormProps> = ({}) => {
   useEffect(() => {
     const fetchPlanes = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/plan");
+        const response = await axios.get("https://localhost:5016/api/TipoPlan/Listar");
         const planesData = response.data; // Use the 'data' property instead of 'json' method
         setPlanes(
           planesData.map((plan: any) => ({
-            tipoplanId: plan.tipoplanId,
-            tipoplanNombre: plan.tipoplanNombre,
+            TIPOPLAN_ID: plan.TIPOPLAN_ID,
+            TIPOPLAN_NOMBRE: plan.TIPOPLAN_NOMBRE,
           }))
         );
       } catch (error) {
@@ -130,12 +132,12 @@ export const SuscripcionesForm: React.FC<SuscripcionesFormProps> = ({}) => {
     const fetchSuscripcionData = async (suscripcionId: string) => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/suscripcion/${suscripcionId}`
+          `https://localhost:5016/api/Suscripcion/leer/${suscripcionId}`
         );
         const suscripcionData = response.data;
         form.reset({
           ...suscripcionData,
-          tipoplan: String(suscripcionData.tipoplan), // Asegúrate de que se establece correctamente
+          TIPOPLAN_ID: String(suscripcionData.TIPOPLAN_ID), // Asegúrate de que se establece correctamente
         });
         setLoadingSuscripcion(false); // Datos cargados correctamente
         setInitialData(true);
@@ -163,16 +165,16 @@ export const SuscripcionesForm: React.FC<SuscripcionesFormProps> = ({}) => {
       setLoading(true);
       const formattedData = {
         ...data,
-        tipoplan: parseInt(data.tipoplan, 10), // Convert tipoplan to a number
+        TIPOPLAN_ID: parseInt(data.TIPOPLAN_ID, 10), // Convert TIPOPLAN_ID to a number
       };
 
       if (initialData) {
         await axios.put(
-          `http://localhost:4000/suscripcion/${params.suscripcionesId}`,
+          `https://localhost:5016/api/Suscripcion/Actualizar/${params.suscripcionesId}`,
           formattedData
         );
       } else {
-        await axios.post(`http://localhost:4000/suscripcion`, formattedData);
+        await axios.post(`https://localhost:5016/api/Suscripcion/Insertar/`, formattedData);
       }
 
       router.refresh();
@@ -188,8 +190,8 @@ export const SuscripcionesForm: React.FC<SuscripcionesFormProps> = ({}) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(
-        `http://localhost:4000/suscripcion/${params.suscripcionesId}`
+      await axios.put(
+        `https://localhost:5016/api/Suscripcion/Eliminar/${params.suscripcionesId}`
       );
       router.refresh();
       router.push(`/suscripciones`);
@@ -232,7 +234,7 @@ export const SuscripcionesForm: React.FC<SuscripcionesFormProps> = ({}) => {
         >
           <FormField
             control={form.control}
-            name="cliente"
+            name="CLI_ID"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Cliente*</FormLabel>
@@ -253,8 +255,8 @@ export const SuscripcionesForm: React.FC<SuscripcionesFormProps> = ({}) => {
                   </FormControl>
                   <SelectContent className="h-[200px]">
                     {clientes.map((cliente) => (
-                      <SelectItem key={cliente.cli_ID} value={cliente.cli_ID}>
-                        {cliente.cli_NOMBRE}
+                      <SelectItem key={cliente.CLI_ID} value={cliente.CLI_ID}>
+                        {cliente.CLI_NOMBRE}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -265,11 +267,11 @@ export const SuscripcionesForm: React.FC<SuscripcionesFormProps> = ({}) => {
           />
           <FormField
             control={form.control}
-            name="tipoplan"
+            name="TIPOPLAN_ID"
             render={({ field }) => {
               // Verifica el valor actual de field.value
               const selectedPlan = planes.find(
-                (plan) => plan.tipoplanId === parseInt(field.value, 10)
+                (plan) => plan.TIPOPLAN_ID === parseInt(field.value, 10)
               );
               return (
                 <FormItem>
@@ -285,7 +287,7 @@ export const SuscripcionesForm: React.FC<SuscripcionesFormProps> = ({}) => {
                       <SelectTrigger>
                         <SelectValue>
                           {selectedPlan
-                            ? selectedPlan.tipoplanNombre
+                            ? selectedPlan.TIPOPLAN_NOMBRE
                             : "Selecciona un Plan:"}
                         </SelectValue>
                       </SelectTrigger>
@@ -293,10 +295,10 @@ export const SuscripcionesForm: React.FC<SuscripcionesFormProps> = ({}) => {
                     <SelectContent className="h-[200px]">
                       {planes.map((plan) => (
                         <SelectItem
-                          key={String(plan.tipoplanId)}
-                          value={String(plan.tipoplanId)}
+                          key={String(plan.TIPOPLAN_ID)}
+                          value={String(plan.TIPOPLAN_ID)}
                         >
-                          {plan.tipoplanNombre}
+                          {plan.TIPOPLAN_NOMBRE}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -308,7 +310,7 @@ export const SuscripcionesForm: React.FC<SuscripcionesFormProps> = ({}) => {
           />
           <FormField
             control={form.control}
-            name="susRenovacionAuto"
+            name="SUS_RENOVACIONAUTO"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Renovación Automática</FormLabel>
@@ -340,7 +342,19 @@ export const SuscripcionesForm: React.FC<SuscripcionesFormProps> = ({}) => {
           />
           <FormField
             control={form.control}
-            name="susEstado"
+            name="SUS_ID"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input type="number" className="hidden" disabled={loading} placeholder="ID" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="SUS_ESTADO"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Estado</FormLabel>

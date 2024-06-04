@@ -29,8 +29,8 @@ export const ProductCard: React.FC<ProductCard> = ({ data }) => {
     >
       <div className="aspect-square rounded-xl bg-gray-100 relative image-container">
         <Image
-          alt={data.tipoplanNombre}
-          src={data.tipoplanImagen}
+          alt={data.TIPOPLAN_NOMBRE}
+          src={data.TIPOPLAN_IMAGEN}
           fill
           className="aspect-square object-cover rounded-md"
         />
@@ -46,12 +46,12 @@ export const ProductCard: React.FC<ProductCard> = ({ data }) => {
       </div>
 
       <div>
-        <p className="font-semibold text-lg">{data.tipoplanNombre}</p>
+        <p className="font-semibold text-lg">{data.TIPOPLAN_NOMBRE}</p>
 
       </div>
 
       <div className="flex items-center justify-between">
-        <Currency value={data.tipoplanPrecio} />
+        <Currency value={data.TIPOPLAN_PRECIO} />
       </div>
     </div>
   )

@@ -32,7 +32,7 @@ export const PlanesClient: React.FC<PlanesClientProps> = ({
           <ArrowBigLeft className="mr-2 h-6 w-6"/>
           Regresar
       </Button>
-      <DataTable searchKeys={["tipoplanNombre","tipoplanDuracion"]} columns={columns} data={data} />
+      <DataTable searchKeys={["TIPOPLAN_NOMBRE","TIPOPLAN_DURACION"]} columns={columns} data={data} />
     </>
   );
 };

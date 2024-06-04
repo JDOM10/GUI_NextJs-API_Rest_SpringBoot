@@ -1,10 +1,9 @@
 import { Product } from '@/types'
 import axios from 'axios'
-import qs from 'query-string'
 
 
 export const getProducts = async (): Promise<Product[]> => {
 
-    const res = await axios.get('http://localhost:4000/plan')
+    const res = await axios.get('https://localhost:5016/api/TipoPlan/Listar')
     return res.data
 }

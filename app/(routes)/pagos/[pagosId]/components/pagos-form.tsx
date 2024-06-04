@@ -29,19 +29,20 @@ import {
 } from "@/components/ui/select";
 
 const formSchema = z.object({
-  cliente: z.string().min(1, { message: "Selecciona una cédula." }),
-  pagoTipo: z.string().min(1, { message: "Debe ingresar al menos 1 caracter." }),
-  pagoCod: z.string().optional(),
-  pagoMonto: z.optional(z.coerce.number().min(0, { message: "Debe ingresar un valor válido."}).
+  CLI_ID: z.string().min(1, { message: "Selecciona una cédula." }),
+  PAGO_ID: z.optional(z.coerce.number()),
+  PAGO_TIPO: z.string().min(1, { message: "Debe ingresar al menos 1 caracter." }),
+  PAGO_COD: z.string().optional(),
+  PAGO_MONTO: z.optional(z.coerce.number().min(0, { message: "Debe ingresar un valor válido."}).
   int({ message: "Debe ingresar un número entero."}),),
-  pagoFecha: z.string().optional(),
-  pagoPendiente: z.string().optional(),
-  pagoEstado: z.boolean(),
+  PAGO_FECHA: z.string().optional(),
+  PAGO_PENDIENTE: z.string().optional(),
+  PAGO_ESTADO: z.boolean(),
 });
 
 type Cliente = {
-  cli_ID: string;
-  cli_NOMBRE: string;
+  CLI_ID: string;
+  CLI_NOMBRE: string;
 };
 
 type PagosFormValues = z.infer<typeof formSchema>;
@@ -66,25 +67,25 @@ export const PagosForm: React.FC<PagosFormProps> = ({ }) => {
   const form = useForm<PagosFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData ? undefined : {
-      cliente: "",
-      pagoTipo: "",
-      pagoMonto: 0,
-      pagoCod: "",
-      pagoFecha: "",
-      pagoPendiente: "pendiente",
-      pagoEstado: true,
+      CLI_ID: "",
+      PAGO_TIPO: "",
+      PAGO_ID: 0,
+      PAGO_MONTO: 0,
+      PAGO_COD: "",
+      PAGO_FECHA: "",
+      PAGO_PENDIENTE: "pendiente",
+      PAGO_ESTADO: true,
     },
   });
 
   useEffect(() => {
     const fetchClientes = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/cliente");
+        const response = await axios.get("https://localhost:5016/api/Cliente/Listar");
         const clientesData = response.data; // Use the 'data' property instead of 'json' method
-
         setClientes(clientesData.map((cliente: any) => ({
-          cli_ID: cliente.cli_ID,
-          cli_NOMBRE: cliente.cli_NOMBRE,
+          CLI_ID: cliente.CLI_ID,
+          CLI_NOMBRE: cliente.CLI_NOMBRE,
         })));
       } catch (error) {
         console.error("Error fetching clientes:", error);
@@ -95,9 +96,9 @@ export const PagosForm: React.FC<PagosFormProps> = ({ }) => {
   }, []);
 
   useEffect(() => {
-    const fetchPagoData = async (pagoId: string) => {
+    const fetchPagoData = async (PAGO_ID: string) => {
       try {
-        const pagoData = await axios.get(`http://localhost:4000/pago/${pagoId}`);
+        const pagoData = await axios.get(`https://localhost:5016/api/Pago/leer/${PAGO_ID}`);
         form.reset(pagoData.data); // Restablecer el formulario con los datos del pago obtenidos
       } catch (error) {
         console.error("Error fetching pago data:", error);
@@ -115,10 +116,11 @@ export const PagosForm: React.FC<PagosFormProps> = ({ }) => {
   const onSubmit = async (data: PagosFormValues) => {
     try {
       setLoading(true);
+      console.log(data);
       if (initialData) {
-        await axios.put(`http://localhost:4000/pago/${params.pagosId}`, data);
+        await axios.put(`https://localhost:5016/api/Pago/Actualizar/${params.pagosId}`, data);
       } else {
-        await axios.post(`http://localhost:4000/pago`, data);
+        await axios.post(`https://localhost:5016/api/Pago/Insertar`, data);
       }
       router.refresh();
       router.push(`/../pagos`);
@@ -135,7 +137,7 @@ export const PagosForm: React.FC<PagosFormProps> = ({ }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`http://localhost:4000/pago/${params.pagosId}`);
+      await axios.put(`https://localhost:5016/api/Pago/Eliminar/${params.pagosId}`);
       router.refresh();
       router.push(`/pagos`);
       router.refresh();
@@ -174,7 +176,7 @@ export const PagosForm: React.FC<PagosFormProps> = ({ }) => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-7">
         <FormField
             control={form.control}
-            name="cliente"
+            name="CLI_ID"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Cliente*</FormLabel>
@@ -192,8 +194,8 @@ export const PagosForm: React.FC<PagosFormProps> = ({ }) => {
                     </FormControl>
                     <SelectContent className="h-[200px]">
                       {clientes.map((cliente) => (
-                        <SelectItem key={cliente.cli_ID} value={cliente.cli_ID}>
-                          {cliente.cli_NOMBRE}
+                        <SelectItem key={cliente.CLI_ID} value={cliente.CLI_ID}>
+                          {cliente.CLI_NOMBRE}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -204,7 +206,7 @@ export const PagosForm: React.FC<PagosFormProps> = ({ }) => {
           />
           <FormField
             control={form.control}
-            name="pagoTipo"
+            name="PAGO_TIPO"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Tipo*</FormLabel>
@@ -217,7 +219,7 @@ export const PagosForm: React.FC<PagosFormProps> = ({ }) => {
           />
           <FormField
             control={form.control}
-            name="pagoMonto"
+            name="PAGO_MONTO"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Monto*</FormLabel>
@@ -230,7 +232,19 @@ export const PagosForm: React.FC<PagosFormProps> = ({ }) => {
           />
           <FormField
             control={form.control}
-            name="pagoEstado"
+            name="PAGO_ID"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input type="number" className="hidden" disabled={loading} placeholder="ID" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="PAGO_ESTADO"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Estado</FormLabel>

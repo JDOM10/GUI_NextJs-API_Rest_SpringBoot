@@ -88,10 +88,18 @@ const Navbar = () => {
               Planes
             </Button>
           </li>
+          <li className="w-full md:w-auto">
+            <Button
+              onClick={() => router.push("/resultados")}
+              className="text-md bg-gray-800 font-bold text-white hover:bg-gray-300 w-full md:w-auto text-center py-2"
+            >
+              Resultados
+            </Button>
+          </li>
           <li id="sususu" className="w-full md:w-auto">
             <Button
               onClick={() => router.push("/suscribete")}
-              className="text-md bg-gray-800 font-bold text-white hover:bg-gray-300 w-full md:w-auto text-center py-2 md:px-60"
+              className="text-md bg-gray-800 font-bold text-white hover:bg-gray-300 w-full md:w-auto text-center py-2 md:px-56"
             >
               SUSCRÍBETE AHORA
             </Button>

@@ -11,7 +11,7 @@ const PagoPage = () => {
   useEffect(() => {
     const obtenerPagos = async () => {
       try {
-        const pagosData = await axios.get('http://localhost:4000/pago');// Obtiene los pagos de la API
+        const pagosData = await axios.get('https://localhost:5016/api/Pago/Listar');// Obtiene los pagos de la API
         setPagos(pagosData.data); // Actualiza el estado con los pagos obtenidos
       } catch (error) {
         console.error("Error al obtener pagos:", error);

@@ -29,12 +29,12 @@ import {
 } from "@/components/ui/select";
 
 const formSchema = z.object({
-  cli_ID: z.string().min(1).max(10, { message: "La cédula debe tener 10 digitos." }),
-  cli_NOMBRE: z.string().min(1, { message: "Debe ingresar al menos 1 caracter." }),
-  cli_APELLIDO: z.string().min(1, { message: "Debe ingresar al menos 1 caracter." }),
-  cli_PAIS: z.string().min(1, { message: "Debe ingresar al menos 1 caracter." }),
-  cli_EMAIL: z.string().email({ message: "Debe ingresar un correo electrónico válido." }),
-  cli_ESTADO: z.boolean(),
+  CLI_ID: z.string().min(1).max(10, { message: "La cédula debe tener 10 digitos." }),
+  CLI_NOMBRE: z.string().min(1, { message: "Debe ingresar al menos 1 caracter." }),
+  CLI_APELLIDO: z.string().min(1, { message: "Debe ingresar al menos 1 caracter." }),
+  CLI_PAIS: z.string().min(1, { message: "Debe ingresar al menos 1 caracter." }),
+  CLI_EMAIL: z.string().email({ message: "Debe ingresar un correo electrónico válido." }),
+  CLI_ESTADO: z.boolean(),
 });
 
 type ClientesFormValues = z.infer<typeof formSchema>;
@@ -58,19 +58,19 @@ export const ClientesForm: React.FC<ClientesFormProps> = ({ }) => {
   const form = useForm<ClientesFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData ? undefined : {
-      cli_ID: "",
-      cli_NOMBRE: "",
-      cli_APELLIDO: "",
-      cli_PAIS: "",
-      cli_EMAIL: "",
-      cli_ESTADO: true,
+      CLI_ID: "",
+      CLI_NOMBRE: "",
+      CLI_APELLIDO: "",
+      CLI_PAIS: "",
+      CLI_EMAIL: "",
+      CLI_ESTADO: true,
     },
   });
 
   useEffect(() => {
     const fetchClienteData = async (clienteId: string) => {
       try {
-        const clienteData = await axios.get(`http://localhost:4000/cliente/${clienteId}`);
+        const clienteData = await axios.get(`https://localhost:5016/api/Cliente/leer//${clienteId}`);
         form.reset(clienteData.data); // Restablecer el formulario con los datos del cliente obtenidos
       } catch (error) {
         console.error("Error fetching cliente data:", error);
@@ -89,9 +89,9 @@ export const ClientesForm: React.FC<ClientesFormProps> = ({ }) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.put(`http://localhost:4000/cliente/${params.clientesId}`, data);
+        await axios.put(`https://localhost:5016//api/Cliente/Actualizar/${params.clientesId}`, data);
       } else {
-        await axios.post(`http://localhost:4000/cliente`, data);
+        await axios.post(`https://localhost:5016/api/Cliente/Insertar`, data);
       }
       router.refresh();
       router.push(`/../clientes`);
@@ -108,7 +108,7 @@ export const ClientesForm: React.FC<ClientesFormProps> = ({ }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`http://localhost:4000/cliente/${params.clientesId}`);
+      await axios.put(`https://localhost:5016/api/Cliente/Eliminar/${params.clientesId}`);
       router.refresh();
       router.push(`/clientes`);
       router.refresh();
@@ -147,7 +147,7 @@ export const ClientesForm: React.FC<ClientesFormProps> = ({ }) => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-7">
         <FormField
             control={form.control}
-            name="cli_ID"
+            name="CLI_ID"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Cédula*</FormLabel>
@@ -160,7 +160,7 @@ export const ClientesForm: React.FC<ClientesFormProps> = ({ }) => {
           />
           <FormField
             control={form.control}
-            name="cli_NOMBRE"
+            name="CLI_NOMBRE"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Nombre*</FormLabel>
@@ -173,7 +173,7 @@ export const ClientesForm: React.FC<ClientesFormProps> = ({ }) => {
           />
           <FormField
             control={form.control}
-            name="cli_APELLIDO"
+            name="CLI_APELLIDO"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Apellido*</FormLabel>
@@ -186,7 +186,7 @@ export const ClientesForm: React.FC<ClientesFormProps> = ({ }) => {
           />
           <FormField
             control={form.control}
-            name="cli_PAIS"
+            name="CLI_PAIS"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>País*</FormLabel>
@@ -199,7 +199,7 @@ export const ClientesForm: React.FC<ClientesFormProps> = ({ }) => {
           />
           <FormField
             control={form.control}
-            name="cli_EMAIL"
+            name="CLI_EMAIL"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Correo Electrónico*</FormLabel>
@@ -212,7 +212,7 @@ export const ClientesForm: React.FC<ClientesFormProps> = ({ }) => {
           />
           <FormField
             control={form.control}
-            name="cli_ESTADO"
+            name="CLI_ESTADO"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Estado</FormLabel>

@@ -15,7 +15,7 @@ export const Summary = () => {
   const searchParams = useSearchParams()
   const items = useCart((state) => state.items)
   const removeAll = useCart((state) => state.removeAll)
-  const [cedula, setCedula] = useState('')
+  const [CLI_ID, setCedula] = useState('')
 
   useEffect(() => {
     if (searchParams.get('success')) {
@@ -29,11 +29,11 @@ export const Summary = () => {
   }, [searchParams, removeAll])
 
   const totalPrice = items.reduce((total, item) => {
-    return total + Number(item.tipoplanPrecio)
+    return total + Number(item.TIPOPLAN_PRECIO)
   }, 0)
 
   const onCheckout = async () => {
-    if (!cedula) {
+    if (!CLI_ID) {
       toast.error('Por favor, ingresa tu cédula.')
       return
     }
@@ -41,21 +41,21 @@ export const Summary = () => {
     try {
       for (const item of items) {
         // Realizar la solicitud a "suscripciones"
-        await axios.post(`http://localhost:4000/suscripcion`, {
-          cliente: cedula,
-          tipoplan: item.tipoplanId,
-          susRenovacionAuto: true,
-          susEstado: true,
+        await axios.post(`https://localhost:5016/api/Suscripcion/Insertar`, {
+          CLI_ID: CLI_ID,
+          TIPOPLAN_ID: item.TIPOPLAN_ID,
+          SUS_RENOVACIONAUTO: true,
+          SUS_ESTADO: true,
         })
 
         // Realizar la solicitud a "pagos"
-        await axios.post(`http://localhost:4000/pago`, {
-          cliente: cedula,
-          pagoTipo: 'Transferencia',
-          pagoMonto: item.tipoplanPrecio,
-          pagoFecha: new Date(),
-          pagoPendiente: 'pendiente',
-          pagoEstado: true,
+        await axios.post(`https://localhost:5016/api/Pago/Insertar`, {
+          CLI_ID: CLI_ID,
+          PAGO_TIPO: 'Transferencia',
+          PAGO_MONTO: item.TIPOPLAN_PRECIO,
+          PAGO_FECHA: new Date(),
+          PAGO_PENDIENTE: 'pendiente',
+          PAGO_ESTADO: true,
         })
       }
 
@@ -77,14 +77,14 @@ export const Summary = () => {
           <Currency value={totalPrice} />
         </div>
         <div className="pt-4">
-          <label htmlFor="cedula" className="block text-sm font-medium text-gray-700">
+          <label htmlFor="CLI_ID" className="block text-sm font-medium text-gray-700">
             Cédula
           </label>
           <input
             type="text"
-            id="cedula"
-            name="cedula"
-            value={cedula}
+            id="CLI_ID"
+            name="CLI_ID"
+            value={CLI_ID}
             onChange={(e) => setCedula(e.target.value)}
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
             required

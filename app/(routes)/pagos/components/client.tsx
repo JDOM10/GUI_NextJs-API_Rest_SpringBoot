@@ -32,7 +32,7 @@ export const PagosClient: React.FC<PagosClientProps> = ({
           <ArrowBigLeft className="mr-2 h-6 w-6"/>
           Regresar
       </Button>
-      <DataTable searchKeys={["cliente", "pagoCod"]} columns={columns} data={data} />
+      <DataTable searchKeys={["CLI_ID", "PAGO_COD"]} columns={columns} data={data} />
     </>
   );
 };

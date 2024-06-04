@@ -2,36 +2,36 @@ import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 
 export type PlanesColumn = {
-    tipoplanId: number;
-    tipoplanNombre: string;
-    tipoplanDuracion: string;
-    tipoplanPrecio: number;
-    tipoplanEstado: boolean;
+    TIPOPLAN_ID: number;
+    TIPOPLAN_NOMBRE: string;
+    TIPOPLAN_DURACION: string;
+    TIPOPLAN_PRECIO: number;
+    TIPOPLAN_ESTADO: boolean;
 }
 
 export const columns: ColumnDef<PlanesColumn>[] = [
     {
-        accessorKey: "tipoplanId",
+        accessorKey: "TIPOPLAN_ID",
         header: "ID",
     },
     {
-        accessorKey: "tipoplanNombre",
+        accessorKey: "TIPOPLAN_NOMBRE",
         header: "Nombre",
     },
     {
-        accessorKey: "tipoplanDuracion",
+        accessorKey: "TIPOPLAN_DURACION",
         header: "Duración",
     },
     {
-        accessorKey: "tipoplanPrecio",
+        accessorKey: "TIPOPLAN_PRECIO",
         header: "Email",
     },
     {
-        accessorKey: "tipoplanEstado",
+        accessorKey: "TIPOPLAN_ESTADO",
         header: "Estado",
         cell: ({ row }) => (
-            <span className={row.original.tipoplanEstado ? 'text-green-500' : 'text-red-500'}>
-                {row.original.tipoplanEstado ? 'Activo' : 'Inactivo'}
+            <span className={row.original.TIPOPLAN_ESTADO ? 'text-green-500' : 'text-red-500'}>
+                {row.original.TIPOPLAN_ESTADO ? 'Activo' : 'Inactivo'}
             </span>
         ),
     },

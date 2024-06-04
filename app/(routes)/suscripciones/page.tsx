@@ -11,7 +11,7 @@ const SuscripcionPage = () => {
   useEffect(() => {
     const obtenerSuscripciones = async () => {
       try {
-        const suscripcionesData = await axios.get('http://localhost:4000/suscripcion');// Obtiene los suscripciones de la API
+        const suscripcionesData = await axios.get('https://localhost:5016/api/Suscripcion/Listar');// Obtiene los suscripciones de la API
         setSuscripciones(suscripcionesData.data); // Actualiza el estado con los suscripciones obtenidos
       } catch (error) {
         console.error("Error al obtener suscripciones:", error);

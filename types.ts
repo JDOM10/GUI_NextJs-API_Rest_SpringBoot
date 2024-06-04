@@ -1,6 +1,6 @@
 export interface Product {
-    tipoplanId: number
-    tipoplanNombre: string
-    tipoplanPrecio: number
-    tipoplanImagen: string
+    TIPOPLAN_ID: number
+    TIPOPLAN_NOMBRE: string
+    TIPOPLAN_PRECIO: number
+    TIPOPLAN_IMAGEN: string
   }

@@ -29,11 +29,12 @@ import {
 } from "@/components/ui/select";
 
 const formSchema = z.object({
-  tipoplanNombre: z.string().min(1, { message: "Debe ingresar al menos 1 caracter." }),
-  tipoplanDuracion: z.string().min(1, { message: "Debe ingresar al menos 1 caracter." }),
-  tipoplanPrecio: z.optional(z.coerce.number().min(0, { message: "Debe ingresar un valor válido."})),
-  tipoplanImagen: z.optional(z.string()),
-  tipoplanEstado: z.boolean(),
+  TIPOPLAN_NOMBRE: z.string().min(1, { message: "Debe ingresar al menos 1 caracter." }),
+  TIPOPLAN_DURACION: z.string().min(1, { message: "Debe ingresar al menos 1 caracter." }),
+  TIPOPLAN_PRECIO: z.optional(z.coerce.number().min(0, { message: "Debe ingresar un valor válido."})),
+  TIPOPLAN_IMAGEN: z.optional(z.string()),
+  TIPOPLAN_ESTADO: z.boolean(),
+  TIPOPLAN_ID: z.optional(z.coerce.number()),
 });
 
 type PlanesFormValues = z.infer<typeof formSchema>;
@@ -57,18 +58,19 @@ export const PlanesForm: React.FC<PlanesFormProps> = ({ }) => {
   const form = useForm<PlanesFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData ? undefined : {
-      tipoplanDuracion: "",
-      tipoplanNombre: "",
-      tipoplanPrecio: 0,
-      tipoplanImagen: "",
-      tipoplanEstado: true,
+      TIPOPLAN_DURACION: "",
+      TIPOPLAN_NOMBRE: "",
+      TIPOPLAN_PRECIO: 0,
+      TIPOPLAN_IMAGEN: "",
+      TIPOPLAN_ESTADO: true,
+      TIPOPLAN_ID: 0,
     },
   });
 
   useEffect(() => {
     const fetchPlanData = async (planId: string) => {
       try {
-        const planData = await axios.get(`http://localhost:4000/plan/${planId}`);
+        const planData = await axios.get(`https://localhost:5016/api/TipoPlan/leerPorId/${planId}`);
         form.reset(planData.data); // Restablecer el formulario con los datos del plan obtenidos
       } catch (error) {
         console.error("Error fetching plan data:", error);
@@ -87,9 +89,9 @@ export const PlanesForm: React.FC<PlanesFormProps> = ({ }) => {
     try {
       setLoading(true);
       if (initialData) {
-        await axios.put(`http://localhost:4000/plan/${params.planesId}`, data);
+        await axios.put(`https://localhost:5016/api/TipoPlan/Actualizar/${params.planesId}`, data);
       } else {
-        await axios.post(`http://localhost:4000/plan`, data);
+        await axios.post(`https://localhost:5016/api/TipoPlan/Insertar`, data);
       }
       router.refresh();
       router.push(`/../planes`);
@@ -106,7 +108,7 @@ export const PlanesForm: React.FC<PlanesFormProps> = ({ }) => {
   const onDelete = async () => {
     try {
       setLoading(true);
-      await axios.delete(`http://localhost:4000/plan/${params.planesId}`);
+      await axios.put(`https://localhost:5016/api/TipoPlan/Eliminar/${params.planesId}`);
       router.refresh();
       router.push(`/planes`);
       router.refresh();
@@ -145,7 +147,7 @@ export const PlanesForm: React.FC<PlanesFormProps> = ({ }) => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-7">
         <FormField
             control={form.control}
-            name="tipoplanNombre"
+            name="TIPOPLAN_NOMBRE"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Nombre*</FormLabel>
@@ -158,7 +160,7 @@ export const PlanesForm: React.FC<PlanesFormProps> = ({ }) => {
           />
           <FormField
             control={form.control}
-            name="tipoplanDuracion"
+            name="TIPOPLAN_DURACION"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Duración*</FormLabel>
@@ -171,7 +173,7 @@ export const PlanesForm: React.FC<PlanesFormProps> = ({ }) => {
           />
           <FormField
             control={form.control}
-            name="tipoplanPrecio"
+            name="TIPOPLAN_PRECIO"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Precio*</FormLabel>
@@ -184,7 +186,19 @@ export const PlanesForm: React.FC<PlanesFormProps> = ({ }) => {
           />
           <FormField
             control={form.control}
-            name="tipoplanImagen"
+            name="TIPOPLAN_ID"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input type="number" className="" disabled={loading} placeholder="ID" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="TIPOPLAN_IMAGEN"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>URL Imagen</FormLabel>
@@ -197,7 +211,7 @@ export const PlanesForm: React.FC<PlanesFormProps> = ({ }) => {
           />
           <FormField
             control={form.control}
-            name="tipoplanEstado"
+            name="TIPOPLAN_ESTADO"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Estado</FormLabel>

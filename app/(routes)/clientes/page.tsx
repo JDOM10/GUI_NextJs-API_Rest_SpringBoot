@@ -11,7 +11,7 @@ const ClientePage = () => {
   useEffect(() => {
     const obtenerClientes = async () => {
       try {
-        const clientesData = await axios.get('http://localhost:4000/cliente');// Obtiene los clientes de la API
+        const clientesData = await axios.get('https://localhost:5016/api/Cliente/Listar');// Obtiene los clientes de la API
         setClientes(clientesData.data); // Actualiza el estado con los clientes obtenidos
       } catch (error) {
         console.error("Error al obtener clientes:", error);

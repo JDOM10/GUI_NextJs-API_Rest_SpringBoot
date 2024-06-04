@@ -2,41 +2,41 @@ import { ColumnDef } from "@tanstack/react-table";
 import { CellAction } from "./cell-action";
 
 export type ClientesColumn = {
-    cli_ID: string;
-    cli_NOMBRE: string;
-    cli_APELLIDO: string;
-    cli_PAIS: string;
-    cli_EMAIL: string;
-    cli_ESTADO: boolean;
+    CLI_ID: string;
+    CLI_NOMBRE: string;
+    CLI_APELLIDO: string;
+    CLI_PAIS: string;
+    CLI_EMAIL: string;
+    CLI_ESTADO: boolean;
 }
 
 export const columns: ColumnDef<ClientesColumn>[] = [
     {
-        accessorKey: "cli_ID",
-        header: "ID",
+        accessorKey: "CLI_ID",
+        header: "Cédula",
     },
     {
-        accessorKey: "cli_NOMBRE",
+        accessorKey: "CLI_NOMBRE",
         header: "Nombre",
     },
     {
-        accessorKey: "cli_APELLIDO",
+        accessorKey: "CLI_APELLIDO",
         header: "Apellido",
     },
     {
-        accessorKey: "cli_PAIS",
+        accessorKey: "CLI_PAIS",
         header: "País",
     },
     {
-        accessorKey: "cli_EMAIL",
+        accessorKey: "CLI_EMAIL",
         header: "Email",
     },
     {
-        accessorKey: "cli_ESTADO",
+        accessorKey: "CLI_ESTADO",
         header: "Estado",
         cell: ({ row }) => (
-            <span className={row.original.cli_ESTADO ? 'text-green-500' : 'text-red-500'}>
-                {row.original.cli_ESTADO ? 'Activo' : 'Inactivo'}
+            <span className={row.original.CLI_ESTADO ? 'text-green-500' : 'text-red-500'}>
+                {row.original.CLI_ESTADO ? 'Activo' : 'Inactivo'}
             </span>
         ),
     },

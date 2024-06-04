@@ -32,7 +32,7 @@ export const SuscripcionesClient: React.FC<SuscripcionesClientProps> = ({
           <ArrowBigLeft className="mr-2 h-6 w-6"/>
           Regresar
       </Button>
-      <DataTable searchKeys={["cliente", "tipoplan"]} columns={columns} data={data} />
+      <DataTable searchKeys={["CLI_ID", "TIPOPLAN_ID"]} columns={columns} data={data} />
     </>
   );
 };
