@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { NavbarActions } from "@/components/navbar-actions";
 import { useState } from "react";
+import SearchBar from "@/components/ui/searchBar";
 
 const Navbar = () => {
   const router = useRouter();
@@ -99,11 +100,12 @@ const Navbar = () => {
           <li id="sususu" className="w-full md:w-auto">
             <Button
               onClick={() => router.push("/suscribete")}
-              className="text-md bg-gray-800 font-bold text-white hover:bg-gray-300 w-full md:w-auto text-center py-2 md:px-56"
+              className="text-md bg-gray-800 font-bold text-white hover:bg-gray-300 w-full md:w-auto text-center py-2 md:px-20"
             >
               SUSCRÍBETE AHORA
             </Button>
           </li>
+          <SearchBar />
         </ul>
         <div className="md:flex items-center">
           <NavbarActions />
